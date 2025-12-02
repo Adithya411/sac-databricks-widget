@@ -1,32 +1,29 @@
 {
-  "id": "com.example.databricks.llm.widget",
-  "name": "Databricks LLM Widget",
-  "description": "Custom widget that calls a Databricks LLM endpoint from SAC.",
+  "id": "com.adithya.databricks.forecastwidget",
   "version": "1.0.0",
+  "name": "Databricks Forecast Widget",
+  "description": "Custom widget that calls a Databricks proxy and shows forecast data.",
+  "newInstancePrefix": "DBForecast",
   "vendor": "PwC",
-  "newInstancePrefix": "DBLLM",
-
+  "eula": "",
+  "license": "Internal",
+  "icon": "",
   "webcomponents": [
     {
       "kind": "main",
       "tag": "databricks-llm-widget",
-      "url": "widget.html",
-      "integrity": "sha256-zbajd1SHgwVG83HxVwbecFNZEEhs2Hq/AtQ9zr+Q+2A="
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widget.js",
+      "integrity": "",
+      "ignoreIntegrity": true
     }
   ],
-
   "properties": {
-    "endpointUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "token": {
+    "proxyUrl": {
+      "description": "URL of Databricks proxy API (optional; currently hard-coded in widget.js)",
       "type": "string",
       "default": ""
     }
   },
-
   "methods": {},
-
   "events": {}
 }
