@@ -1,0 +1,32 @@
+{
+  "id": "com.example.databricks.llm.widget",
+  "name": "Databricks LLM Widget",
+  "description": "Custom widget that calls a Databricks LLM endpoint from SAC.",
+  "version": "1.0.0",
+  "vendor": "PwC",
+  "newInstancePrefix": "DBLLM",
+
+  "webcomponents": [
+    {
+      "kind": "main",
+      "tag": "databricks-llm-widget",
+      "url": "widget.html",
+      "integrity": "sha256-zbajd1SHgwVG83HxVwbecFNZEEhs2Hq/AtQ9zr+Q+2A="
+    }
+  ],
+
+  "properties": {
+    "endpointUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "token": {
+      "type": "string",
+      "default": ""
+    }
+  },
+
+  "methods": {},
+
+  "events": {}
+}
