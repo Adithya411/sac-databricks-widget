@@ -3,7 +3,6 @@ class DatabricksMetaWidget extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
 
-    // Minimal UI setup, no network calls here
     this.shadowRoot.innerHTML = `
       <style>
         .container { font-family: Arial; display:flex; flex-direction:column; gap:8px; height:100%; }
@@ -29,21 +28,15 @@ class DatabricksMetaWidget extends HTMLElement {
   }
 
   connectedCallback() {
-    try {
-      this.statusEl.textContent = "Ready.";
-    } catch (err) {
-      console.error("Widget init error:", err);
-    }
+    this.statusEl.textContent = "Ready.";
   }
 
   get proxyUrl() {
-  // Default is localhost; can be overridden by SAC property
-  return (
-    this.getAttribute("proxyUrl") ||
-    "http://127.0.0.1:5000/billing-insights"
-  );
-}
-
+    return (
+      this.getAttribute("proxyUrl") ||
+      "http://127.0.0.1:5000/billing-insights"
+    );
+  }
 
   async callDatabricks() {
     const prompt = this.promptEl.value.trim();
@@ -72,8 +65,8 @@ class DatabricksMetaWidget extends HTMLElement {
       const data = await resp.json();
       this.statusEl.textContent = "Success.";
       this.responseEl.textContent = data.output_text || JSON.stringify(data, null, 2);
+
     } catch (err) {
-      console.error(err);
       this.statusEl.textContent = "Network/JS error";
       this.responseEl.textContent = err.message || String(err);
     }
