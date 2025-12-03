@@ -32,10 +32,7 @@ class DatabricksMetaWidget extends HTMLElement {
   }
 
   get proxyUrl() {
-    return (
-      this.getAttribute("proxyUrl") ||
-      "http://127.0.0.1:5000/billing-insights"
-    );
+    return this.getAttribute("proxyUrl") || "http://127.0.0.1:5000/billing-insights";
   }
 
   async callDatabricks() {
