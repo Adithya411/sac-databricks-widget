@@ -37,8 +37,13 @@ class DatabricksMetaWidget extends HTMLElement {
   }
 
   get proxyUrl() {
-    return this.getAttribute("proxyUrl") || "http://0.0.0.0:5000/billing-insights";
-  }
+  // Default is localhost; can be overridden by SAC property
+  return (
+    this.getAttribute("proxyUrl") ||
+    "http://127.0.0.1:5000/billing-insights"
+  );
+}
+
 
   async callDatabricks() {
     const prompt = this.promptEl.value.trim();
