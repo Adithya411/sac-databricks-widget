@@ -3,20 +3,20 @@ class DatabricksMetaWidget extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
 
+    // Minimal UI setup, no network calls here
     this.shadowRoot.innerHTML = `
       <style>
-        .container { font-family: Arial, sans-serif; padding: 8px; display: flex; flex-direction: column; gap: 8px; height: 100%; box-sizing: border-box; }
-        textarea { width: 100%; min-height: 80px; resize: vertical; box-sizing: border-box; font-size: 14px; padding: 6px; }
-        button { padding: 8px 12px; cursor: pointer; font-size: 14px; background-color: #007cc0; border: none; color: white; border-radius: 4px; transition: background-color 0.2s ease; }
-        button:hover { background-color: #005a8c; }
-        .response { flex: 1; border: 1px solid #ccc; padding: 8px; white-space: pre-wrap; overflow: auto; box-sizing: border-box; background-color: #f9f9f9; font-family: monospace; font-size: 13px; margin-top: 8px; border-radius: 4px; }
-        .status { font-size: 12px; color: #666; min-height: 18px; margin-top: 4px; }
+        .container { font-family: Arial; display:flex; flex-direction:column; gap:8px; height:100%; }
+        textarea { width:100%; min-height:80px; }
+        button { padding:6px 12px; cursor:pointer; }
+        .status { font-size:12px; color:#666; min-height:18px; }
+        .response { flex:1; border:1px solid #ccc; padding:8px; white-space:pre-wrap; overflow:auto; }
       </style>
       <div class="container">
-        <textarea class="prompt" placeholder="Enter your question or prompt..."></textarea>
+        <textarea class="prompt" placeholder="Enter your question..."></textarea>
         <button class="submit">Ask Databricks</button>
         <div class="status">Ready.</div>
-        <div class="response">Your output will appear here.</div>
+        <div class="response"></div>
       </div>
     `;
 
@@ -28,16 +28,16 @@ class DatabricksMetaWidget extends HTMLElement {
     this.buttonEl.addEventListener("click", () => this.callDatabricks());
   }
 
-  get proxyUrl() {
-    return this.getAttribute("proxyUrl") || "http://127.0.0.1:5000/llm"; // default for local dev
-  }
-
-  set proxyUrl(value) {
-    this.setAttribute("proxyUrl", value);
-  }
-
   connectedCallback() {
-    this.statusEl.textContent = "Ready.";
+    try {
+      this.statusEl.textContent = "Ready.";
+    } catch (err) {
+      console.error("Widget init error:", err);
+    }
+  }
+
+  get proxyUrl() {
+    return this.getAttribute("proxyUrl") || "http://127.0.0.1:5000";
   }
 
   async callDatabricks() {
@@ -48,7 +48,7 @@ class DatabricksMetaWidget extends HTMLElement {
     }
 
     this.statusEl.textContent = "Calling Databricks...";
-    this.responseEl.textContent = "...";
+    this.responseEl.textContent = "";
 
     try {
       const resp = await fetch(this.proxyUrl, {
@@ -58,23 +58,18 @@ class DatabricksMetaWidget extends HTMLElement {
       });
 
       if (!resp.ok) {
-        const text = await resp.text();
+        const errorText = await resp.text();
         this.statusEl.textContent = `Error: HTTP ${resp.status}`;
-        this.responseEl.textContent = text || "No response body";
+        this.responseEl.textContent = errorText;
         return;
       }
 
       const data = await resp.json();
-      const output =
-        data.output_text ||
-        (data.predictions && data.predictions[0]?.content) ||
-        JSON.stringify(data, null, 2);
-
       this.statusEl.textContent = "Success.";
-      this.responseEl.textContent = output || "(empty response)";
+      this.responseEl.textContent = data.output_text || JSON.stringify(data, null, 2);
     } catch (err) {
       console.error(err);
-      this.statusEl.textContent = "Network or JS error.";
+      this.statusEl.textContent = "Network/JS error";
       this.responseEl.textContent = err.message || String(err);
     }
   }
