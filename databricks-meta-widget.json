@@ -12,7 +12,7 @@
     {
       "kind": "main",
       "tag": "databricks-meta-widget",
-      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widgetgai.js",
+      "url": "https://raw.githubusercontent.com/Adithya411/sac-databricks-widget/refs/heads/main/widgetgai.js",
       "integrity": "",
       "ignoreIntegrity": true
     }
