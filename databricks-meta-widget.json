@@ -2,28 +2,18 @@
   "id": "com.adithya.databricks.genaiwidget",
   "version": "1.0.0",
   "name": "Databricks Meta Widget",
-  "description": "Custom widget that calls a Databricks proxy and displays AI insights.",
-  "newInstancePrefix": "DBMeta",
-  "vendor": "PwC",
-  "eula": "",
-  "license": "Internal",
-  "icon": "",
   "webcomponents": [
     {
       "kind": "main",
       "tag": "databricks-meta-widget",
-      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widgetgai.js",
-      "integrity": "",
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widgetgai.js?v=2",
       "ignoreIntegrity": true
     }
   ],
   "properties": {
     "proxyUrl": {
-      "description": "URL of Databricks proxy API endpoint",
       "type": "string",
       "default": ""
     }
-  },
-  "methods": {},
-  "events": {}
+  }
 }
