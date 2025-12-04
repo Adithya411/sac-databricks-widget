@@ -11,7 +11,9 @@
     {
       "kind": "main",
       "tag": "isu-insight-widget",
-      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.html"
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.html",
+      "integrity": "",
+      "ignoreIntegrity": true
     }
   ],
 
