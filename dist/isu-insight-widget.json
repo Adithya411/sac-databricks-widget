@@ -11,7 +11,7 @@
       "id": "pwc.isu.insight.widget.component",
       "name": "ISU Insight Widget",
       "type": "widget",
-      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widget.html",
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.html",
       "integrity": "",
       "ignoreIntegrity": true
     }
@@ -37,6 +37,6 @@
   "cssIncludes": [],
 
   "jsIncludes": [
-    "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/widget.js"
+    "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.js"
   ]
 }
