@@ -1,32 +1,36 @@
 {
   "id": "pwc.isu.insight.widget",
-  "name": "ISU Insight Widget",
-  "description": "Custom widget that sends natural-language IS-U questions to a Databricks-powered proxy endpoint and displays the answer.",
-  "vendor": "Adithya Chiluvari",
-  "eula": "",
-  "newInstancePrefix": "DBISU",
   "version": "1.0.0",
-  "license": "Internal",
-  "icon": "",
+  "name": "ISU Insight Widget",
+  "description": "Ask natural-language IS-U questions and get answers from a Databricks endpoint via a proxy.",
+  "vendor": "PwC",
+  "license": "MIT",
+  "newInstancePrefix": "ISU_INSIGHT",
 
   "webcomponents": [
     {
       "kind": "main",
-      "tag": "databricks-isu-widget",
-      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.js",
-      "integrity": "",
-      "ignoreIntegrity": true
+      "tag": "isu-insight-widget",
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.html"
     }
   ],
 
   "properties": {
-    "proxyUrl": {
-      "description": "URL of Databricks proxy API (optional; currently hard-coded in widget.js)",
+    "defaultQuestion": {
       "type": "string",
-      "default": ""
+      "default": "",
+      "description": "Optional default question that pre-fills the widget input."
+    },
+    "proxyUrl": {
+      "type": "string",
+      "default": "",
+      "description": "Optional override for the proxy URL used by widget.js"
     }
   },
+
   "methods": {},
   "events": {}
 }
+
+
 
