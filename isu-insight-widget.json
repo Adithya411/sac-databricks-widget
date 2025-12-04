@@ -1,0 +1,34 @@
+{
+  "id": "pwc.isu.insight.widget",
+  "version": "1.0.0",
+  "name": "ISU Insight Widget",
+  "description": "Ask natural-language IS-U questions and get answers from a Databricks endpoint via a proxy.",
+  "newInstancePrefix": "ISUInsight",
+  "vendor": "PwC",
+  "eula": "",
+  "license": "Internal",
+  "icon": "",
+  "webcomponents": [
+    {
+      "kind": "main",
+      "tag": "isu-insight-widget",
+      "url": "https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/isu-insight-widget.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    }
+  ],
+  "properties": {
+    "proxyUrl": {
+      "description": "Optional override for the ISU proxy URL. If empty, the hard-coded URL in the JS is used.",
+      "type": "string",
+      "default": ""
+    },
+    "defaultQuestion": {
+      "description": "Optional default question to pre-fill the input box.",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "methods": {},
+  "events": {}
+}
