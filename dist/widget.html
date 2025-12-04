@@ -32,12 +32,16 @@
 </head>
 <body>
   <div id="app">
-    <input id="questionInput" type="text" placeholder="Enter your question..." />
+    <input
+      id="questionInput"
+      type="text"
+      placeholder="Enter your question..."
+    />
     <button id="askBtn">Ask</button>
     <div id="answerBox">Answer will appear here.</div>
   </div>
 
-  <!-- SAC custom widget runtime injects sac.js; we only load our script -->
-  <script src="widget.js"></script>
+  <!-- Load the widget logic from the same CDN repo used in the JSON manifest -->
+  <script src="https://cdn.jsdelivr.net/gh/Adithya411/sac-databricks-widget@main/dist/widget.js"></script>
 </body>
 </html>
