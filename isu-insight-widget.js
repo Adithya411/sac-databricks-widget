@@ -45,7 +45,7 @@ class ISUInsightWidget extends HTMLElement {
       <div class="container">
         <div class="row">
           <input class="question" type="text"
-                 placeholder="Enter your IS-U question...">
+                 placeholder="Enter your question...">
           <button class="ask">Ask</button>
         </div>
         <div class="status">Ready.</div>
