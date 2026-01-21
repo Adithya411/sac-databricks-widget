@@ -53,7 +53,7 @@
     // Basic custom widget skeleton
     const getScriptInfo = () => {
       return {
-        id: "pwc.isu.insight.widget",
+        id: "pwc.sales.widget",
         name: "Sales Widget",
         description: "Ask natural-language IS-U questions and get answers from a Databricks endpoint via a proxy."
       };
@@ -93,3 +93,4 @@
     setupSACWidget();
   }
 })();
+
