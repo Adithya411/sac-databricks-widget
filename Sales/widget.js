@@ -1,95 +1,111 @@
-(function() {
+(function () {
   "use strict";
 
-  // ====== CONFIG: your local proxy URL ======
-  const PROXY_URL = "http://127.0.0.1:5000/sales-insight";
+  // ---- Widget metadata ----
+  const getScriptInfo = () => ({
+    id: "pwc.sales.insight.widget",
+    name: "Sales Insight Widget",
+    description: "Ask sales questions and get answers from a Databricks GenAI endpoint"
+  });
 
-  // Simple UI wiring for standalone testing
-  function setupStandaloneUI() {
-    const input = document.getElementById("questionInput");
-    const btn   = document.getElementById("askBtn");
-    const box   = document.getElementById("answerBox");
+  // ---- Widget implementation ----
+  const widgetImpl = function () {
+    let input;
+    let button;
+    let output;
 
-    if (!input || !btn || !box) return;
+    this.init = function () {
+      // Main container
+      const container = document.createElement("div");
+      container.style.padding = "10px";
+      container.style.fontFamily = "Arial, sans-serif";
 
-    btn.addEventListener("click", async () => {
-      const question = (input.value || "").trim();
-      if (!question) {
-        box.textContent = "Please enter a question.";
-        return;
-      }
+      // Input box
+      input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Ask a sales question…";
+      input.style.width = "100%";
+      input.style.marginBottom = "8px";
 
-      box.textContent = "Loading...";
+      // Button
+      button = document.createElement("button");
+      button.innerText = "Ask";
+      button.style.padding = "6px 12px";
 
-      try {
-        const resp = await fetch(PROXY_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        });
+      // Output area
+      output = document.createElement("div");
+      output.style.marginTop = "10px";
+      output.style.whiteSpace = "pre-wrap";
 
-        if (!resp.ok) {
-          const text = await resp.text();
-          box.textContent = "Error: " + text;
+      button.onclick = async () => {
+        const question = input.value.trim();
+        if (!question) {
+          output.innerText = "Please enter a question.";
           return;
         }
 
-        const data = await resp.json();
-        box.textContent = data.answer || "(no answer)";
-      } catch (e) {
-        box.textContent = "Request failed: " + e.toString();
-      }
-    });
-  }
+        const proxyUrl = this.getProperty("proxyUrl");
 
-  // If SAC custom widget runtime exists, wire into it
-  function setupSACWidget() {
-    if (!window["sap"] || !sap["bi"] || !sap.bi.wt) {
-      // Not running in SAC – just standalone test mode
-      setupStandaloneUI();
-      return;
-    }
+        if (!proxyUrl) {
+          output.innerText = "Proxy URL is not configured.";
+          return;
+        }
 
-    // Basic custom widget skeleton
-    const getScriptInfo = () => {
-      return {
-        id: "pwc.sales.insight.widget",
-        name: "Sales Widget",
-        description: "Ask natural-language questions and get answers from a Databricks endpoint via a proxy."
+        output.innerText = "Loading…";
+
+        try {
+          const resp = await fetch(proxyUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ question: question })
+          });
+
+          if (!resp.ok) {
+            const text = await resp.text();
+            output.innerText = "Error: " + text;
+            return;
+          }
+
+          const data = await resp.json();
+          output.innerText = data.answer || "No answer returned.";
+
+        } catch (err) {
+          console.error(err);
+          output.innerText = "Failed to call backend service.";
+        }
       };
+
+      // Assemble UI
+      container.appendChild(input);
+      container.appendChild(button);
+      container.appendChild(output);
+
+      // Attach to SAC widget container
+      this.append(container);
     };
 
-    const widgetImpl = function() {
-      const that = this;
-
-      // Called once when widget is created
-      this.init = function() {
-        setupStandaloneUI(); // reuse the same UI logic
-      };
-
-      // Called when widget properties or data change
-      this.afterUpdate = function() {
-        // Example: you could take a default question from a property
-        // and auto-call the proxy. For now we let the user type.
-      };
-
-      this.onResize = function() {
-        // Optional: handle resize
-      };
-
-      this.destroy = function() {
-        // Cleanup if needed
-      };
+    this.afterUpdate = function () {
+      // Called when properties change (optional)
     };
 
-    sap.bi.wt.customWidgetManager
-      .registerCustomWidget(getScriptInfo, widgetImpl);
-  }
+    this.onResize = function () {
+      // Optional resize handling
+    };
 
-  // Run when DOM ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupSACWidget);
+    this.destroy = function () {
+      // Cleanup if needed
+    };
+  };
+
+  // ---- Register widget with SAC ----
+  if (window.sap && sap.bi && sap.bi.wt && sap.bi.wt.customWidgetManager) {
+    sap.bi.wt.customWidgetManager.registerCustomWidget(
+      getScriptInfo,
+      widgetImpl
+    );
   } else {
-    setupSACWidget();
+    console.error("SAC customWidgetManager not available.");
   }
 })();
